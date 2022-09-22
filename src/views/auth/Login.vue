@@ -4,35 +4,18 @@
     <div div class="login_item">
       <div class="item-top">
         <div v-for="tab in Tab_List" :key="tab.id">
-          <p
-            @click="onChangePage(), ERI()"
-            :class="`${activeTab === tab.name && 'active-tab'}`"
-          >
+          <p @click="onChangePage(), ERI()" :class="`${activeTab === tab.name && 'active-tab'}`">
             {{ tab.label }}
           </p>
           <span></span>
         </div>
       </div>
-      <Form
-        @submit="Login"
-        v-show="activeTab === Tabs.Login"
-        class="item-centre2"
-      >
+      <Form @submit="Login" v-show="activeTab === Tabs.Login" class="item-centre2">
         <div class="item-centre">
           <div class="centre_first">
             <label for="Логин">{{ $t("Login") }}</label>
-            <Field
-              rules="required"
-              :modelValue="username"
-              v-slot="{ errors }"
-              name="Login"
-            >
-              <input
-                type="text"
-                placeholder="Ваш логин"
-                v-model="username"
-                class="form-control"
-              />
+            <Field rules="required" :modelValue="username" v-slot="{ errors }" name="Login">
+              <input type="text" placeholder="Ваш логин" v-model="username" class="form-control" />
               <span class="validPass1" v-if="errors && errors.length">
                 {{ errors[0] }}
               </span>
@@ -41,34 +24,15 @@
           <div class="centre_second">
             <label for="Пароль">{{ $t("Password") }}</label>
             <div class="input">
-              <Field
-                rules="required"
-                :modelValue="password"
-                v-slot="{ errors }"
-                name="password"
-              >
-                <input
-                  :type="showPassword ? 'text' : 'password'"
-                  id="Пароль"
-                  v-model="password"
-                  placeholder="Введите пароль"
-                />
+              <Field rules="required" :modelValue="password" v-slot="{ errors }" name="password">
+                <input :type="showPassword ? 'text' : 'password'" id="Пароль" v-model="password"
+                  placeholder="Введите пароль" />
                 <span class="validPass" v-if="errors && errors.length">
                   {{ errors[0] }}
                 </span>
               </Field>
-              <img
-                :src="parol"
-                alt=""
-                :class="showPassword ? 'yes' : 'no'"
-                @click="hidePass"
-              />
-              <img
-                :src="eye"
-                alt=""
-                :class="showPassword ? 'no' : 'yes'"
-                @click="showPass"
-              />
+              <img :src="parol" alt="" :class="showPassword ? 'yes' : 'no'" @click="hidePass" />
+              <img :src="eye" alt="" :class="showPassword ? 'no' : 'yes'" @click="showPass" />
             </div>
           </div>
         </div>
@@ -77,11 +41,8 @@
         </div>
       </Form>
       <div v-show="activeTab === Tabs.ЭЦП" class="e_imzo">
-        <div  class="items" @click="imzo_dialog = !imzo_dialog">
-          <div
-            :class="imzo_dialog ? 'border_item' : 'item'"
-            @click="sign(items_four)"
-          >
+        <div class="items" @click="imzo_dialog = !imzo_dialog">
+          <div :class="imzo_dialog ? 'border_item' : 'item'" @click="sign(items_four)">
             <div class="left">
               <div class="content1">
                 <img :src="key" alt="" />
@@ -89,8 +50,7 @@
               </div>
               <div class="content1">
                 <p>
-                  <span style="font-weight: bold">INN:</span
-                  ><span>{{ items_four.TIN }}</span>
+                  <span style="font-weight: bold">INN:</span><span>{{ items_four.TIN }}</span>
                 </p>
               </div>
               <div class="content1">
@@ -108,21 +68,16 @@
               </div>
               <div class="item2_right">
                 <span>{{
-                  moment(items_four.validFrom).format("DD.MM.YYYY")
-                }}</span
-                >-
+                moment(items_four.validFrom).format("DD.MM.YYYY")
+                }}</span>-
                 <span>{{
-                  moment(items_four.validTo).format("DD.MM.YYYY")
+                moment(items_four.validTo).format("DD.MM.YYYY")
                 }}</span>
               </div>
             </div>
           </div>
         </div>
-        <div
-          class="four_items"
-          style="transition: all 0.5s linear"
-          v-show="imzo_dialog"
-        >
+        <div class="four_items" style="transition: all 0.5s linear" v-show="imzo_dialog">
           <div class="items" v-for="item in items" :key="item.id">
             <div class="item" @click="sign(item)">
               <div class="left">
@@ -132,8 +87,7 @@
                 </div>
                 <div class="content1">
                   <p>
-                    <span style="font-weight: bold">INN:</span
-                    ><span>{{ item.TIN }}</span>
+                    <span style="font-weight: bold">INN:</span><span>{{ item.TIN }}</span>
                   </p>
                 </div>
                 <div class="content1">
@@ -150,8 +104,7 @@
                   </div>
                 </div>
                 <div class="item2_right">
-                  <span>{{ moment(item.validFrom).format("DD.MM.YYYY") }}</span
-                  >-
+                  <span>{{ moment(item.validFrom).format("DD.MM.YYYY") }}</span>-
                   <span>{{ moment(item.validTo).format("DD.MM.YYYY") }}</span>
                 </div>
               </div>
@@ -186,11 +139,14 @@ const items_four = ref({});
 const hash = ref("");
 const router = useRouter();
 const text = ref("Логин или пароль не верны");
+
 const Tabs = ref({
   Login: t("Login"),
   ЭЦП: t("ЭЦП"),
 });
+
 const activeTab = ref(Tabs.value.Login);
+
 const Tab_List = ref([
   { label: t("Login"), name: Tabs.value.Login, id: 1 },
   { label: t("ЭЦП"), name: Tabs.value.ЭЦП, id: 2 },
@@ -227,11 +183,11 @@ const Login = () => {
           ) {
             router.push({ name: "complaints" });
           }
-          else{
+          else {
             router.push({ name: "accepted" });
           }
         }
-      }).catch(err=>{
+      }).catch(err => {
         ErrorNotification({ text: "nimadir xato" })
       });
   } else {
@@ -288,6 +244,7 @@ getList();
   font-family: "Roboto";
   font-style: normal;
 }
+
 .login {
   width: 100%;
   background-color: #f3f7f9;
@@ -297,12 +254,15 @@ getList();
   flex-direction: column;
   padding-bottom: 75px;
 }
+
 .yes {
   display: block;
 }
+
 .no {
   display: none;
 }
+
 .login h2 {
   font-weight: 600;
   font-size: 30px;
@@ -310,6 +270,7 @@ getList();
   margin-bottom: 20px;
   margin-top: 135px;
 }
+
 .login .login_item {
   width: 65%;
   background: #ffffff;
@@ -320,6 +281,7 @@ getList();
   align-items: center;
   justify-content: center;
 }
+
 .login .login_item .item-top {
   width: 100%;
   height: 50px;
@@ -329,6 +291,7 @@ getList();
   text-align: center;
   justify-content: center;
 }
+
 .login .login_item .item-top div {
   width: 90px;
   display: flex;
@@ -336,6 +299,7 @@ getList();
   justify-content: center;
   flex-direction: column;
 }
+
 .login .login_item .item-top div p {
   width: 90px;
   position: relative;
@@ -348,6 +312,7 @@ getList();
   font-family: "Roboto", sans-serif;
   color: #8da2ad;
 }
+
 .login .login_item .item-top div p::after {
   content: "";
   margin-top: 10px;
@@ -356,12 +321,14 @@ getList();
   width: 0;
   transition: 0.3s;
 }
+
 .login .login_item .item-top div .active-tab {
   color: #36363b;
   font-weight: 400;
   transition: none;
   width: 90px;
 }
+
 .login .login_item .item-top div .active-tab::after {
   content: "";
   margin-top: 10px;
@@ -370,12 +337,14 @@ getList();
   width: 90px;
   transition: 0.3s;
 }
+
 .login .login_item .item-top div span {
   height: 0;
   width: 100%;
   margin-top: -1.5px;
   border: 1px solid #e1eaed;
 }
+
 .login .login_item .item-centre2 {
   width: 85%;
   display: flex;
@@ -384,6 +353,7 @@ getList();
   flex-direction: column;
   flex-wrap: wrap;
 }
+
 .login .login_item .item-centre {
   width: 100%;
   display: grid;
@@ -394,6 +364,7 @@ getList();
   flex-wrap: wrap;
   margin-top: 80px;
 }
+
 .login .login_item .item-centre .centre_first {
   position: relative;
   width: 100%;
@@ -401,11 +372,13 @@ getList();
   flex-direction: column;
   margin-top: 15px;
 }
+
 .login .login_item .item-centre label {
   font-weight: 400;
   font-size: 14px;
   color: #272a2c;
 }
+
 .login .login_item .item-centre .centre_first input {
   font-weight: 400;
   font-size: 14px;
@@ -419,6 +392,7 @@ getList();
   margin-right: 5px;
   border: none;
 }
+
 .login .login_item .item-centre .centre_first .validPass1 {
   position: absolute;
   top: 85px;
@@ -426,9 +400,11 @@ getList();
   color: red;
   left: 10px;
 }
+
 .login .login_item .item-centre .centre_second {
   margin-top: 10px;
 }
+
 .login .login_item .item-centre .centre_second .input {
   position: relative;
   width: 100%;
@@ -440,6 +416,7 @@ getList();
   justify-content: space-between;
   margin-top: 10px;
 }
+
 .login .login_item .item-centre .centre_second .input .validPass {
   position: absolute;
   top: 50px;
@@ -447,6 +424,7 @@ getList();
   color: red;
   left: 10px;
 }
+
 .login .login_item .item-centre .centre_second .input input {
   width: 100%;
   font-weight: 400;
@@ -459,15 +437,18 @@ getList();
   outline: none;
   border: none;
 }
+
 .login .login_item .item-centre .centre_second .input img {
   margin-right: 16px;
   cursor: pointer;
 }
+
 .login .login_item .item-centre2 .login_btn {
   width: 96%;
   display: flex;
   justify-content: start;
 }
+
 .login .login_item .item-centre2 .login_btn .item-bottom {
   width: 106px;
   height: 46px;
@@ -479,6 +460,7 @@ getList();
   color: #ffffff;
   margin: 30px 0px;
 }
+
 @media (max-width: 668px) {
   .login .login_item .item-centre2 .login_btn .item-bottom {
     width: 90px;
@@ -491,32 +473,38 @@ getList();
     color: #ffffff;
     margin: 20px 0px;
   }
+
   .login .login_item .item-centre .centre_second .input img {
     margin-right: 20px;
     cursor: pointer;
   }
 }
+
 @media (max-width: 855px) {
   .login h2 {
     font-size: 25px;
     margin-top: 20px;
   }
+
   .login .login_item .item-centre .centre_second .input {
     margin-left: 0px;
   }
 }
+
 @media (max-width: 1100px) {
   .login .login_item .item-centre {
     grid-template-columns: 1fr;
     width: 100%;
     margin-top: 80px;
   }
+
   .login .login_item .item-centre2 .login_btn {
     width: 96%;
     display: flex;
     justify-content: center;
   }
 }
+
 .login .login_item .e_imzo {
   width: 100%;
   height: 400;
@@ -527,6 +515,7 @@ getList();
   justify-content: center;
   flex-direction: column;
 }
+
 .login .login_item .e_imzo .four_items {
   transition: 0.3s all;
   width: 100%;
@@ -538,10 +527,12 @@ getList();
   justify-content: center;
   flex-direction: column;
 }
+
 .login .login_item .e_imzo .items {
   width: 96%;
   transition: all 0.5s linear;
 }
+
 .login .login_item .e_imzo .items .item {
   width: 96%;
   min-height: 130px;
@@ -553,6 +544,7 @@ getList();
   justify-content: space-between;
   cursor: pointer;
 }
+
 .login .login_item .e_imzo .items .border_item {
   width: 96%;
   min-height: 130px;
@@ -565,67 +557,83 @@ getList();
   justify-content: space-between;
   cursor: pointer;
 }
+
 .login .login_item .e_imzo .four_items .items .item:hover {
   background-color: #f3f7f9;
 }
+
 .login .login_item .e_imzo .items .item .left {
   margin-top: 6px;
 }
+
 .login .login_item .e_imzo .items .border_item .left {
   margin-top: 6px;
 }
+
 .login .login_item .e_imzo .items .item .left .content1 {
   margin: 3px 0px;
 }
+
 .login .login_item .e_imzo .items .border_item .left .content1 {
   margin: 3px 0px;
 }
+
 .login .login_item .e_imzo .items .item .left .content1 span {
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
 }
+
 .login .login_item .e_imzo .items .border_item .left .content1 span {
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
 }
+
 .login .login_item .e_imzo .items .item .left .content1 img {
   margin-right: 14px;
 }
+
 .login .login_item .e_imzo .items .border_item .left .content1 img {
   margin-right: 14px;
 }
+
 .login .login_item .e_imzo .items .item .left .content1 p {
   color: #353c47;
   font-size: 12px;
 }
+
 .login .login_item .e_imzo .items .border_item .left .content1 p {
   color: #353c47;
   font-size: 12px;
 }
+
 .login .login_item .e_imzo .items .item .right .item1_right {
   display: flex;
   align-items: center;
   margin-top: 6px;
 }
+
 .login .login_item .e_imzo .items .border_item .right .item1_right {
   display: flex;
   align-items: center;
   margin-top: 6px;
 }
+
 .login .login_item .e_imzo .items .item .right .item1_right span {
   margin-right: 20px;
   font-weight: 400;
   font-size: 14px;
   color: #8da2ad;
 }
+
 .login .login_item .e_imzo .items .border_item .right .item1_right span {
   margin-right: 20px;
   font-weight: 400;
   font-size: 14px;
   color: #8da2ad;
 }
+
 .login .login_item .e_imzo .items .item .right .item1_right .action {
   width: 18px;
   height: 18px;
@@ -635,6 +643,7 @@ getList();
   justify-content: center;
   cursor: pointer;
 }
+
 .login .login_item .e_imzo .items .border_item .right .item1_right .action {
   width: 18px;
   height: 18px;
@@ -644,16 +653,19 @@ getList();
   justify-content: center;
   cursor: pointer;
 }
+
 .login .login_item .e_imzo .items .item .right .item1_right .action img {
   width: 8px;
   height: 6px;
   margin-top: 6px;
 }
+
 .login .login_item .e_imzo .items .border_item .right .item1_right .action img {
   width: 8px;
   height: 6px;
   margin-top: 6px;
 }
+
 .login .login_item .e_imzo .items .item .right .item2_right {
   margin-top: 6px;
   display: flex;
@@ -662,6 +674,7 @@ getList();
   font-size: 12px;
   color: #30be76;
 }
+
 .login .login_item .e_imzo .items .border_item .right .item2_right {
   margin-top: 6px;
   display: flex;

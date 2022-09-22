@@ -1,10 +1,6 @@
 <template>
   <div class="loginItem">
-    <AuthSidebar
-      :authShow="authShow"
-      :AuthShowItem="AuthShowItem"
-      :AuthShowItem2="AuthShowItem2"
-    />
+    <AuthSidebar :authShow="authShow" :AuthShowItem="AuthShowItem" :AuthShowItem2="AuthShowItem2" />
     <div :class="authShow ? 'login_items2' : 'login_items'">
       <AuthNavbar />
       <router-view></router-view>
@@ -29,6 +25,7 @@ const AuthShowItem2 = () => {
   display: flex;
   height: 100vh;
 }
+
 .login_items {
   width: calc(100% - 260px);
   display: flex;
@@ -37,6 +34,7 @@ const AuthShowItem2 = () => {
   overflow-y: auto;
   overflow-x: auto;
 }
+
 .login_items2 {
   width: calc(100% - 62px);
   display: flex;
@@ -44,6 +42,7 @@ const AuthShowItem2 = () => {
   overflow-y: auto;
   overflow-x: auto;
 }
+
 @media (max-width: 668px) {
   .login_items {
     width: 100%;
@@ -52,6 +51,7 @@ const AuthShowItem2 = () => {
     flex-direction: column;
     transition: all 0.45s ease-out;
   }
+
   .login_items2 {
     width: calc(100% - 62px);
     height: 100vh;

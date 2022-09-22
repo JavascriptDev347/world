@@ -1,4 +1,7 @@
-import { createRouter, createWebHistory } from "vue-router";
+import {
+  createRouter,
+  createWebHistory
+} from "vue-router";
 import LoginItem from "@/views/auth/LoginItem";
 import Login from "@/views/auth/Login";
 import Shikoyat from "@/views/auth/Shikoyat";
@@ -14,13 +17,11 @@ import Message from '@/views/MainPage/Message'
 import SingleComplaints from '@/views/MainPage/SingleComplaints'
 import SingleSendApplication from '@/views/MainPage/SingleSendApplication'
 import Accept_Protocol from '@/views/MainPage/Accept_Protokol'
-const routes = [
-  {
+const routes = [{
     path: "/auth",
     name: "auth",
     component: LoginItem,
-    children: [
-      {
+    children: [{
         path: "/login",
         name: "login",
         component: Login,
@@ -41,65 +42,64 @@ const routes = [
     path: "/",
     name: "main",
     component: Main,
-    children:[
-      {
+    children: [{
         path: "/commission",
-        name:"commission",
-        component:Commission
+        name: "commission",
+        component: Commission
       },
       {
         path: "/complaints",
-        name:"complaints",
-        component:Complaints,
+        name: "complaints",
+        component: Complaints,
       },
       {
-        path : "/single_complaints/:id",
-        name:"singleComplaints",
+        path: "/single_complaints/:id",
+        name: "singleComplaints",
         meta: {
           child: 'complaints-child'
         },
-        component:SingleComplaints
+        component: SingleComplaints
       },
       {
         path: "/sendApplication",
-        name:"sendApplication",
-        component:SendApplication
+        name: "sendApplication",
+        component: SendApplication
       },
       {
-        path : "/send_application/:id",
-        name:"send_application",
+        path: "/send_application/:id",
+        name: "send_application",
         meta: {
           child: 'send_app_child'
         },
-        component:SingleSendApplication
+        component: SingleSendApplication
       },
       {
         path: "/accepted",
-        name:"accepted",
-        component:Accepted
+        name: "accepted",
+        component: Accepted
       },
       {
-        path : "/accept_protocol/:id",
-        name:"accept_protocol",
+        path: "/accept_protocol/:id",
+        name: "accept_protocol",
         meta: {
           child: 'accept_protocol_child'
         },
-        component:Accept_Protocol
+        component: Accept_Protocol
       },
       {
         path: "/denied",
-        name:"denied",
-        component:Denied
+        name: "denied",
+        component: Denied
       },
       {
         path: "/decision",
-        name:"decision",
-        component:Decision
+        name: "decision",
+        component: Decision
       },
       {
         path: "/message",
-        name:"message",
-        component:Message
+        name: "message",
+        component: Message
       },
     ]
   },
@@ -109,16 +109,23 @@ const router = createRouter({
   history: createWebHistory(),
   routes,
 });
+
+
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem("token");
   const name = to.name === "login";
   const shikoyat = to.name === "shikoyat";
   const protokol = to.name === "protokol";
+
   if (!token && !name && !shikoyat && !protokol) {
-    return next({ name: "login" });
+    return next({
+      name: "login"
+    });
   } else {
     if (token && name) {
-      return next({ name: "commission" });
+      return next({
+        name: "commission"
+      });
     } else {
       next();
     }
